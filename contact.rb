@@ -1,6 +1,6 @@
-# c1=Contact.create("Ryan","Anderson","hotmail","hey")
-#  c2=Contact.create("Tara","Anderson","gmail","bye")
-# c3=Contact.create("Leya","Anderson","yahoo","nomnom")
+c1=Contact.create("Ryan","Anderson","hotmail","hey")
+ c2=Contact.create("Tara","Anderson","gmail","bye")
+c3=Contact.create("Leya","Anderson","yahoo","nomnom")
 class Contact
 
   attr_reader :id
@@ -31,12 +31,52 @@ class Contact
   # This method should accept an id as an argument
   # and return the contact who has that id
   def self.find(id)
-    @@contacts.map do |contact|
+    @@contacts.each do |contact|
       if id == contact.id
         return "#{contact.first_name} #{contact.last_name}"
       end
     end
   end
+  # This method should work similarly to the find method above
+  # but it should allow you to search for a contact using attributes other than id
+  # by specifying both the name of the attribute and the value
+  # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
+  def self.find_by(atrb, value)
+    arr= []
+    @@contacts.each do |contact|
+      if contact.send(atrb) == value
+         arr << contact
+      end
+    end
+    return arr
+  end
+
+
+  # def self.find_by(atrb, value)
+  #
+  #   @@contacts.each do |contact|
+  #     if atrb == 'first_name'
+  #       if value == contact.first_name
+  #         return contact.first_name
+  #       end
+  #     end
+  #     if atrb == 'last_name'
+  #       if value == contact.last_name
+  #         return contact.last_name
+  #       end
+  #     end
+  #     if atrb == 'email'
+  #       if value == contact.email
+  #         return contact.email
+  #       end
+  #     end
+  #     if atrb == 'note'
+  #       if value == contact.note
+  #         return contact.note
+  #       end
+  #     end
+  #   end
+  # end
 
   # This method should initialize the contact's attributes
   def initialize(first_name, last_name, email, note)
@@ -50,22 +90,15 @@ class Contact
 
 
 
-
+  def update
   # This method should allow you to specify
   # 1. which of the contact's attributes you want to update
   # 2. the new value for that attribute
   # and then make the appropriate change to the contact
-  def update
+
 
   end
 
-  # This method should work similarly to the find method above
-  # but it should allow you to search for a contact using attributes other than id
-  # by specifying both the name of the attribute and the value
-  # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
-  def self.find_by
-
-  end
 
   # This method should delete all of the contacts
   def self.delete_all
