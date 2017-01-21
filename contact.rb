@@ -1,3 +1,4 @@
+#
 # c1=Contact.create("Ryan","Anderson","hotmail","hey")
 #  c2=Contact.create("Tara","Anderson","gmail","bye")
 # c3=Contact.create("Leya","Anderson","yahoo","nomnom")
@@ -89,9 +90,9 @@ class Contact
 
 
 
-  def update(atrb,new_value)
   # This method should allow you to specify
   # 1. which of the contact's attributes you want to update
+  def update(atrb,new_value)
   # and then make the appropriate change to the contact
   # 2. the new value for that attribute
     @@contacts.each do |contact|
@@ -107,22 +108,31 @@ class Contact
         return "Try again!"
       end
     end
+
   end
 
 
   # This method should delete all of the contacts
   def self.delete_all
-
+    unless @@contacts.empty?
+      @@contacts.delete_if {|contact| contact != nil }
+    else
+      return "There are no contacts to delete!"
+    end
+    # return "Can the Pope's dick fit through a donut hole Morty?"
   end
 
   def full_name
+
+    return "#{first_name} #{last_name}"
 
   end
 
   # This method should delete the contact
   # HINT: Check the Array class docs for built-in methods that might be useful here
-  def delete
-
+  def delete(obj)
+    @@contacts.delete_if {|contact| contact.full_name == obj}
+    return "Contact deleted!"
   end
 
   # Feel free to add other methods here, if you need them.
