@@ -1,10 +1,10 @@
-c1=Contact.create("Ryan","Anderson","hotmail","hey")
- c2=Contact.create("Tara","Anderson","gmail","bye")
-c3=Contact.create("Leya","Anderson","yahoo","nomnom")
+# c1=Contact.create("Ryan","Anderson","hotmail","hey")
+#  c2=Contact.create("Tara","Anderson","gmail","bye")
+# c3=Contact.create("Leya","Anderson","yahoo","nomnom")
 class Contact
 
   attr_reader :id
-  attr_accessor :first_name, :last_name, :email, :note
+  attr_accessor :first_name, :last_name, :email, :note, :update
 
   @@contacts =[]  #Sets an empty array of contacts to fill
   @@id = 1        #Creates a unique ID for each contact created via class create method.
@@ -80,7 +80,6 @@ class Contact
 
   # This method should initialize the contact's attributes
   def initialize(first_name, last_name, email, note)
-
     @first_name = first_name
     @last_name = last_name
     @email = email
@@ -90,13 +89,24 @@ class Contact
 
 
 
-  def update
+  def update(atrb,new_value)
   # This method should allow you to specify
   # 1. which of the contact's attributes you want to update
-  # 2. the new value for that attribute
   # and then make the appropriate change to the contact
-
-
+  # 2. the new value for that attribute
+    @@contacts.each do |contact|
+      if atrb == 'first_name'
+        return contact.first_name = new_value
+      elsif atrb == 'last_name'
+        return contact.last_name = new_value
+      elsif atrb == 'email'
+        return contact.email = new_value
+      elsif atrb == 'note'
+        return contact.note = new_value
+      else
+        return "Try again!"
+      end
+    end
   end
 
 
