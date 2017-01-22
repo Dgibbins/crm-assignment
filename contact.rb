@@ -1,20 +1,20 @@
 #
-# c1=Contact.create("Ryan","Anderson","hotmail","hey")
-#  c2=Contact.create("Tara","Anderson","gmail","bye")
-# c3=Contact.create("Leya","Anderson","yahoo","nomnom")
+# c1=Contact.create("Ryan","Anderson",9671111,"hotmail","hey")
+#  c2=Contact.create("Tara","Anderson",9671111,"gmail","bye")
+# c3=Contact.create("Leya","Anderson",9671111,"yahoo","nomnom")
 class Contact
 
   attr_reader :id
-  attr_accessor :first_name, :last_name, :email, :note, :update
+  attr_accessor :first_name, :last_name, :email, :note, :update, :number
 
   @@contacts =[]  #Sets an empty array of contacts to fill
   @@id = 1        #Creates a unique ID for each contact created via class create method.
 
   # This method should call the initializer,
   # store the newly created contact, and then return it
-  def self.create(first_name, last_name, email, note)
+  def self.create(first_name, last_name, number, email, note)
     # 1. Create a new contact using class method #self.create(args)
-    new_contact = Contact.new(first_name, last_name, email, note)
+    new_contact = Contact.new(first_name, last_name, number, email, note)
     # 2. Push newly created contact into @@contacts list class variable.
     @@contacts << new_contact
     # 3. Increment unique ID by 1.
@@ -34,7 +34,7 @@ class Contact
   def self.find(id)
     @@contacts.each do |contact|
       if id == contact.id
-        return "#{contact.first_name} #{contact.last_name}"
+         "#{contact.first_name} #{contact.last_name}"
       end
     end
   end
@@ -49,8 +49,13 @@ class Contact
          arr << contact
       end
     end
-    return arr
+      if arr.empty?
+        return "Error: Contact does not exist. Please try again."
+      else
+        return arr
+      end
   end
+
 
 
   # def self.find_by(atrb, value)
@@ -80,9 +85,10 @@ class Contact
   # end
 
   # This method should initialize the contact's attributes
-  def initialize(first_name, last_name, email, note)
+  def initialize(first_name, last_name, number, email, note)
     @first_name = first_name
     @last_name = last_name
+    @number = number
     @email = email
     @note = note
     @id = @@id
@@ -100,6 +106,8 @@ class Contact
         return contact.first_name = new_value
       elsif atrb == 'last_name'
         return contact.last_name = new_value
+      elsif atrb == 'number'
+        return contact.number = new_value
       elsif atrb == 'email'
         return contact.email = new_value
       elsif atrb == 'note'
@@ -132,7 +140,7 @@ class Contact
   # HINT: Check the Array class docs for built-in methods that might be useful here
   def delete(obj)
     @@contacts.delete_if {|contact| contact.full_name == obj}
-    return "Contact deleted!"
+
   end
 
   # Feel free to add other methods here, if you need them.
