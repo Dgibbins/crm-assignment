@@ -48,6 +48,7 @@ class Contact
          return contact
       end
     end
+    contact = nil
   end
 
   def self.find(full_name)

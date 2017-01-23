@@ -28,6 +28,10 @@ class TestContact < Minitest::Test
   end
 
   def test_find_by
+    # expected_value = @contact
+    # actual_value = Contact.find_by('first_name', 'Grace')
+    #
+    # assert_equal(expected_value, actual_value)
     expected_value = @contact
     actual_value = Contact.find_by('first_name', 'Grace')
 
