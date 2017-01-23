@@ -34,52 +34,49 @@ class Contact
   def self.find(id)
     @@contacts.each do |contact|
       if id == contact.id
-         "#{contact.first_name} #{contact.last_name}"
+         return contact
       end
     end
   end
+
+  def self.find(full_name)
+    @@contacts.each do |contact|
+      if full_name == contact.full_name
+        return contact
+      end
+    end
+  end
+
   # This method should work similarly to the find method above
   # but it should allow you to search for a contact using attributes other than id
   # by specifying both the name of the attribute and the value
   # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
   def self.find_by(atrb, value)
-    arr= []
+    
     @@contacts.each do |contact|
       if contact.send(atrb) == value
-         arr << contact
+        return contact
       end
     end
-      if arr.empty?
-        return "Error: Contact does not exist. Please try again."
-      else
-        return arr
-      end
   end
+
 
 
 
   # def self.find_by(atrb, value)
   #
   #   @@contacts.each do |contact|
-  #     if atrb == 'first_name'
-  #       if value == contact.first_name
-  #         return contact.first_name
-  #       end
+  #     if atrb == 'first_name' && contact.first_name == value
+  #       return contact.first_name
   #     end
-  #     if atrb == 'last_name'
-  #       if value == contact.last_name
+  #     if atrb == 'last_name'  && contact.last_name == value
   #         return contact.last_name
-  #       end
   #     end
-  #     if atrb == 'email'
-  #       if value == contact.email
-  #         return contact.email
-  #       end
+  #     if atrb == 'email' && contact.email == value
+  #       return contact.email
   #     end
-  #     if atrb == 'note'
-  #       if value == contact.note
-  #         return contact.note
-  #       end
+  #     if atrb == 'note' && contact.note == value
+  #       return contact.note
   #     end
   #   end
   # end
@@ -96,29 +93,37 @@ class Contact
 
 
 
-  # This method should allow you to specify
-  # 1. which of the contact's attributes you want to update
+  # # This method should allow you to specify
+  # # 1. which of the contact's attributes you want to update
   def update(atrb,new_value)
-  # and then make the appropriate change to the contact
-  # 2. the new value for that attribute
-    @@contacts.each do |contact|
+  # # and then make the appropriate change to the contact
+  # # 2. the new value for that attribute
       if atrb == 'first_name'
-        return contact.first_name = new_value
+        self.first_name = new_value
       elsif atrb == 'last_name'
-        return contact.last_name = new_value
+        self.last_name = new_value
       elsif atrb == 'number'
-        return contact.number = new_value
+        self.number = new_value
       elsif atrb == 'email'
-        return contact.email = new_value
+        self.email = new_value
       elsif atrb == 'note'
-        return contact.note = new_value
+        self.note = new_value
+      elsif atrb == 'full_name'
       else
-        return "Try again!"
+        return "Somethings wrong"
       end
-    end
 
   end
 
+  #IN PROGERESS
+  # def update(atrb,new_value)
+  #   @@contacts.each do |contact|
+  #     if contact.send(atrb) == contact.first_name
+  #       contact.first_name = new_value
+  #     end
+  #   end
+  # end
+#
 
   # This method should delete all of the contacts
   def self.delete_all
@@ -138,8 +143,8 @@ class Contact
 
   # This method should delete the contact
   # HINT: Check the Array class docs for built-in methods that might be useful here
-  def delete(obj)
-    @@contacts.delete_if {|contact| contact.full_name == obj}
+  def delete
+    @@contacts.delete(self)
 
   end
 

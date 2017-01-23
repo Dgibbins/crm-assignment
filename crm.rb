@@ -13,7 +13,6 @@ attr_reader :add_new_contact, :modify_existing_contact, :delete_contact, :displa
       print_main_menu
       user_selected = gets.to_i
       call_option(user_selected)
-
     end
   end
 
@@ -62,51 +61,58 @@ attr_reader :add_new_contact, :modify_existing_contact, :delete_contact, :displa
   def modify_existing_contact
     puts "Please enter the full name of the contact you wish to update: "
     full_name = gets.chomp.to_s
-    puts "Please specify what you want to change\n [1]. First name?\n [2]. Last name? \n [3]. Phone number? \n [4]. E-mail?\n [5]. Notes or Comments"
+    puts "Please specify what you want to change\n [1]. First name?\n [2]. Last name? \n [3]. Full name? \n [4]. E-mail?\n [5]. Notes or Comments\n [6] Phone Number"
     num = gets.chomp.to_i
       case num
       when 1 then atrb = 'first_name'
       when 2 then atrb = 'last_name'
-      when 3 then atrb = 'number'
+      when 3 then atrb = 'full_name'
       when 4 then atrb = 'email'
       when 5 then atrb = 'note'
+      when 6 then atrb = 'number'
       end
     puts  "#{atrb} was selected. Change #{atrb} to: "
     new_value = gets.chomp.to_s
-    Contact.all.each do |contact|
-      if contact.full_name == full_name
-        contact.update(atrb, new_value)
-      else
-        return "Not found within system, please try again!"
-      end
-      return "\e[H\e[2J"
+    Contact.all.find do |contact| contact.full_name == full_name
+        Contact.find(full_name).update(atrb, new_value)
     end
+      return "\e[H\e[2J"
+
 
   end
 
   def delete_contact
     puts "Please enter the full name of the contact you would like to delete."
     full_name = gets.chomp
-    Contact.all.each do |contact|
-      if contact.full_name == full_name
-        c1 = contact
-        c1.delete(full_name)
 
-      else
-        return "Contact does not exist"
+      Contact.all.find do |contact| contact.full_name == full_name
+        puts "Are you sure you want to delete #{contact.full_name} (y/n): "
+        answer = gets.chomp.downcase
+        if answer == 'y'
+          Contact.find(full_name).delete
+          puts "\e[H\e[2J"
+          puts "Contact Deleted!!!"
+          user_prompt=gets.chomp
+          puts "\e[H\e[2J"
+        else
+          puts "\e[H\e[2J"
+          puts "Contact not deleted!"
+          user_prompt=gets.chomp
+          puts "\e[H\e[2J"
+        end
       end
-      return " #{full_name} deleted!"
-    end
-
+      # puts "Contact Deleted!"
   end
 
   def display_all_contacts
     #pull up self.all method in contact.rb and iterate over each contact instance & output them with attributes.
+    i=1
     if Contact.all.empty?    #not working
-      return "Contact list is empty =("
+      puts "Contact list is empty =("
     else
       Contact.all.each do |contact|
-        puts "#{contact.full_name} \t\t\t phone #: #{contact.number}\t\t\t email:#{contact.email} \t\t\t note:#{contact.note}"
+        puts "[#{i}] #{contact.full_name}  phone #: #{contact.number} email:#{contact.email}  note:#{contact.note}"
+        i+=1
       end
     end
 
@@ -115,22 +121,31 @@ attr_reader :add_new_contact, :modify_existing_contact, :delete_contact, :displa
   end
 
   def search_by_attribute
-    puts "How would you like to search through your contacts? [1] First name \n[2] Last name \n[3] Full name \n[4] Email [5] Note [6] Number"
-    num = gets.chomp # takes the entered number, enters and compares it to the case.
-      case num
-      when 1 then atrb = 'first_name' # assign atrb variable to capture method you want to use for later.
-        when 2 then atrb = 'last_name'
-        when 3 then atrb = 'full_name'
-        when 4 then atrb = 'email'
-        when 5 then atrb = 'note'
-        when 6 then atrb = 'number'
+    puts "How would you like to search through your contacts?\n[1] First name \n[2] Last name \n[3] Full name \n[4] Email \n[5] Note \n[6] Number"
+    num = gets.chomp
+      case num    #this does not work with #send(string) function on line 139
+      when 1 then atrb1 = 'first_name' # assign atrb variable to capture method you want to use for later.
+      when 2 then atrb1 = 'last_name'
+      when 3 then atrb1 = 'full_name'
+      when 4 then atrb1 = 'email'
+      when 5 then atrb1 = 'note'
+      when 6 then atrb1 = 'number'
       end
-    puts "Enter search query: "
-    query = gets.chomp
-    Contacts.all.each do |contact|    #Iterate through your array of Contacts and pull out each stored contact instance.
-      if contact.atrb  == query
-        puts "#{contact}"
+
+    puts "Enter search term: "
+    search_term=gets.chomp
+    arr_list = []                   #Create an empty array to populate matching queries.
+    Contact.all.each do |contact|
+      if contact.send(num) == search_term
+        arr_list << contact
       end
+    end
+    arr_list.each do |found|
+      puts "\n #{found.full_name}, #{found.email}, #{found.note}, #{found.number}\n"
+      20.times {print "-"}
+      puts "\n"
+      x=gets.chomp
+      puts "\e[H\e[2J"
     end
   end
 
@@ -139,5 +154,4 @@ end
 # puts "\e[H\e[2J"
 crm_test= CRM.new("test")
 crm_test.main_menu
-
 end
