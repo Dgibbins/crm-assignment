@@ -52,7 +52,7 @@ class Contact
   # by specifying both the name of the attribute and the value
   # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
   def self.find_by(atrb, value)
-    
+
     @@contacts.each do |contact|
       if contact.send(atrb) == value
         return contact

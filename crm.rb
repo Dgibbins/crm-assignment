@@ -120,9 +120,11 @@ attr_reader :add_new_contact, :modify_existing_contact, :delete_contact, :displa
     enter = gets.chomp
   end
 
-  def search_by_attribute
+
+
+  def search_by_attribute #can't get #send method to work with #case atrb1 obj.
     puts "How would you like to search through your contacts?\n[1] First name \n[2] Last name \n[3] Full name \n[4] Email \n[5] Note \n[6] Number"
-    num = gets.chomp
+    num = gets.chomp.to_i
       case num    #this does not work with #send(string) function on line 139
       when 1 then atrb1 = 'first_name' # assign atrb variable to capture method you want to use for later.
       when 2 then atrb1 = 'last_name'
@@ -136,7 +138,7 @@ attr_reader :add_new_contact, :modify_existing_contact, :delete_contact, :displa
     search_term=gets.chomp
     arr_list = []                   #Create an empty array to populate matching queries.
     Contact.all.each do |contact|
-      if contact.send(num) == search_term
+      if contact.send(atrb1) == search_term
         arr_list << contact
       end
     end
