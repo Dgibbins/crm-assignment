@@ -9,7 +9,7 @@ class Contact
 
   @@contacts =[]  #Sets an empty array of contacts to fill
   @@id = 1        #Creates a unique ID for each contact created via class create method.
-
+  @@backup = []   #Backup array for contacts.
   # This method should call the initializer,
   # store the newly created contact, and then return it
   def self.create(first_name, last_name, number, email, note)
@@ -29,6 +29,17 @@ class Contact
     @@contacts
   end
 
+  def self.bup  #This displays your backup file
+    @@backup
+  end
+
+  def self.backup   #this files through your contact list and pushes into a new array
+    @@contacts.each do |contact|
+      if contact != nil
+        @@backup << contact
+      end
+    end
+  end
   # This method should accept an id as an argument
   # and return the contact who has that id
   def self.find(id)
@@ -85,7 +96,7 @@ class Contact
   def initialize(first_name, last_name, number, email, note)
     @first_name = first_name
     @last_name = last_name
-    @number = number
+    # @number = number #take out for mini test.
     @email = email
     @note = note
     @id = @@id
@@ -132,7 +143,6 @@ class Contact
     else
       return "There are no contacts to delete!"
     end
-    # return "Can the Pope's dick fit through a donut hole Morty?"
   end
 
   def full_name
@@ -147,6 +157,9 @@ class Contact
     @@contacts.delete(self)
 
   end
+
+
+
 
   # Feel free to add other methods here, if you need them.
 
